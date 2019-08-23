@@ -1,4 +1,4 @@
-笔记&代码实现
+The things i learned.
 ---
 
 ### 算法相关
