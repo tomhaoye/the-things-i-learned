@@ -1,0 +1,3 @@
+Most typical raster formats cannot store HDR data (32 bit floating point values per pixel component), which is why some relatively old or complex formats are still predominant here, and worth mentioning separately. Newer alternatives are showing up, though. RGBE is the format for HDR images originating from Radiance and also supported by Adobe Photoshop. JPEG-HDR is a file format from Dolby Labs similar to RGBE encoding, standardized as JPEG XT Part 2.
+
+JPEG XT Part 7 includes support for encoding floating point HDR images in the base 8-bit JPEG file using enhancement layers encoded with four profiles (A-D); Profile A is based on the RGBE format and Profile B on the XDepth format from Trellis Management.

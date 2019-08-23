@@ -1,0 +1,1 @@
+WebP is a new open image format that uses both lossless and lossy compression. It was designed by Google to reduce image file size to speed up web page loading: its principal purpose is to supersede JPEG as the primary format for photographs on the web. WebP is based on VP8's intra-frame coding and uses a container based on RIFF.

@@ -1,0 +1,83 @@
+# 构建高性能MySQL系统
+- 硬件
+	- CPU
+		- CPU亲和性
+			- 确保每个io都被某发起的CPU处理
+			- echo 2>sys/block/\<block device>/queue/rq-affinity
+		- 选择最大性能模式，避免节能模式导致性能不足
+		- 关闭NUMA，降低swap概率
+	- RAID
+		- 选择FORCE WB读写
+		- 选择适合的充放电策略
+		- 高IO、推荐RAID 10，空间需求大则RAID 5
+- 操作系统
+	- IO调度策略
+		- SSD/PCIE SSD推荐noop，其他用deadline
+		- echo noop>/sys/block/\<block device>/queue/scheduler
+	- 禁用块设备轮转模式
+		- echo 0>/sys/block/\<block device>/queue/rotational
+	- 内存
+		- vm.swappiness=0
+		- 内存最大性能模式
+- 文件系统
+	- 确保4K对齐，如果使用全盘单一分区，可使用xfs
+	- 禁止atime、diratime
+		- mount -o noatime -o nodiratime
+	- 开启trim
+		- mount -o discard
+	- 关闭barrier
+		- mount -o barrier = 0
+- MySQL
+	- 配置优化
+		- IO相关参数
+			- innodb_flush_method = O_DIRECT
+			- innodb_read_io_thread = 16
+			- innodb_write_io_thread = 16
+			- innodb_io_capacity = 3000
+			- innodb_flush_neighbors = 0
+				- innodb在刷新一个脏页时，会检测该页所在区的所有页，如果是脏页，则一起刷新。这样做的好处是通过AIO将多个IO合并
+			- innodb_flush_log_at_trx_commit
+				- redo 刷盘策略
+			- sync_binlog
+				- binlog刷盘策略
+			- innodb_log_buffer_size
+				- 建议8-16M，系统tps越高，设置越大
+		- 内存分配
+			- 策略
+				- jemalloc是BSD提供的内存分配管理
+				- tcmalloc是google的内存分配模块
+				- ptmalloc是glibc的内存肥胖管理
+				- malloc-lib ＝ /usr/lib64/libjemalloc.so.1
+			- 系统资源
+				- malloc-lib = /usr/lib64/libjemalloc.so.1
+				- back_log：大于max-connections
+				- thread_stack = 192
+			- 并发控制
+				- 使用thread_pool
+				- thread_cache_size
+	- schema优化
+		- 索引优化
+			- 目标：理应最小的索引成本找到需要的记录
+		- 原则
+			- 最左侧前缀原则：MySQL会一直向右匹配直到遇到范围查询（>/</between/like）就停止匹配，比如a=1 and b=2 and c>3 and d=4。如果建立（a,b,c,d）顺序的索引，d是用不到索引的，如果建立（a,b,d,c）的索引则都可以用到，a,b,d顺序可任意调整
+			- 避免重复索引：idx_abc多列索引，相当于建立了(a)单列索引，(a,b)组合索引和(a,b,c)组合索引。不在索引列使用函数如max(id)>10，id+1>3等
+			- 尽量选择区分度高的列座位前缀索引：区分度的共识是count(distinct col)/count(*)，表示字段不重复的比例，比例越大我们扫描的记录越少
+		- SQL开发优化
+			- 不使用储存过程、触发器、自定义函数
+			- 不使用全文索引
+			- 不使用分区表
+			- 针对OLTP业务应尽量避免使用多表join和子查询
+			- 不使用*，select使用具体列名：在发生列的增删时，发生列名修改时，最大限度避免程序逻辑中没有修改导致的BUG，In的元素个数300-500
+			- 避免使用大事务，减少锁等待和竞争
+			- 禁止使用％前缀模糊查询
+			- 禁止使用子查询，尽量使用join代替
+			- 遇到分页查询，使用掩饰关联解决，分页如有大offset，可先取id，然后再用主键id关联表会提高效率
+			- 禁止使用order by rand()
+			- 不使用负向查询，如not in，因为负向查询不能使用索引，可优化为in查询
+			- 不要一次更新大量数据
+			- SQL中使用到OR的改写用IN(or效率没有IN高)
+- 数据库架构
+	- 单例无法解决空间或性能需求考虑拆分
+	- 垂直拆分
+	- 水平拆分
+	- 引入缓存系统

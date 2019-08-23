@@ -1,0 +1,29 @@
+digraph structs {
+	node[shape = record];
+	struct1[shape = record, label = "{{20 | 40} | { p1 | p2 | p3 }}"];
+	struct2[shape = record, label = "{{6 | 12} | { p1 | p2 | p3 }}"];
+	struct3[shape = record, label = "{{25 | 33} | { p1 | p2 | p3 }}"];
+	struct4[shape = record, label = "{{60 | 90} | { p1 | p2 | p3 }}"];
+	struct5[shape = record, label = "2 | 3"];
+	struct6[shape = record, label = "8 | 9"];
+	struct7[shape = record, label = "14 | 18"];
+	struct8[shape = record, label = "23 | 24"];
+	struct9[shape = record, label = "29 | 31"];
+	struct10[shape = record, label = "34 | 38"];
+	struct11[shape = record, label = "42 | 46"];
+	struct12[shape = record, label = "65 | 70"];
+	struct13[shape = record, label = "93 | 100"];
+
+	struct1 -> struct2;
+	struct1 -> struct3;
+	struct1 -> struct4;
+	struct2 -> struct5;
+	struct2 -> struct6;
+	struct2 -> struct7;
+	struct3 -> struct8;
+	struct3 -> struct9;
+	struct3 -> struct10;
+	struct4 -> struct11;
+	struct4 -> struct12;
+	struct4 -> struct13;
+}
