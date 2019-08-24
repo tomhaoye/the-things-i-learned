@@ -5,7 +5,7 @@ The things i learned.
 <a href="#"><img src="https://img.shields.io/badge/算法-algorithm-green.svg"></a>
 <a href="#"><img src="https://img.shields.io/badge/数据结构-dataStructure-important.svg"></a>
 <a href="#"><img src="https://img.shields.io/badge/数据库-MySQL-yellow.svg"></a>
-<a href="#"><img src="https://img.shields.io/badge/语言-PHP-orange.svg"></a>
+<a href="#"><img src="https://img.shields.io/badge/语言-PHP-ff66b0.svg"></a>
 <a href="#"><img src="https://img.shields.io/github/languages/code-size/tomhaoye/the-things-i-learned" alt="size"></a>
 <a href="#"><img src="https://img.shields.io/github/last-commit/tomhaoye/the-things-i-learned" alt="last"></a>
 </p>
