@@ -1,6 +1,14 @@
 The things i learned.
 ---
 
+<p>
+<a href="#"><img src="https://img.shields.io/badge/算法-algorithm-green.svg"></a>
+<a href="#"><img src="https://img.shields.io/badge/数据结构-dataStructure-blue.svg"></a>
+<a href="#"><img src="https://img.shields.io/badge/数据库-MySQL-yello.svg"></a>
+<a href="#"><img src="https://img.shields.io/github/languages/code-size/tomhaoye/the-things-i-learned" alt="size"></a>
+<a href="#"><img src="https://img.shields.io/github/last-commit/tomhaoye/the-things-i-learned" alt="last"></a>
+</p>
+
 ### 算法相关
 + [四则运算](https://github.com/tomhaoye/the-things-i-learned/blob/master/algorithm/arithmetic.php)
 + [冒泡排序](https://github.com/tomhaoye/the-things-i-learned/blob/master/algorithm/Bubble.php)
